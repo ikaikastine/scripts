@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Store the current directory
+CUR_DIR=$(pwd)
+
+failed=()
+arrCount=0
+
+# Let the person running the script know what's going on.
+echo -e "\n\033[1mPulling in the latest changes for all repositories...\033[0m\n"
+
+# Find all git repos and update it to the master latest revision
+for i in $(find . -name ".git" | cut -c 3-); do
+  echo -e "";
+  echo -e "\033[33m"+$i+"\033[0m";
+
+  # We have to go to the .git parent to call the pull command
+  cd "$i";
+  cd ..;
+
+  # Pull
+  git pull origin master;
+
+  if [ "$?" = "1" ]; then
+    ((arrCount++))
+    failed+="$i"
+
+  fi
+
+  # Back to current directory
+  cd $CUR_DIR
+done
+
+echo $arrCount
+# If there aren't failed pulls, complete!
+if [ $arrCount == "0" ]; then
+  echo -e "\n\033[32mComplete!\033[0m\n"
+else
+  # If there are failed pulls, show how many and which repository
+  echo -e "\n\033[0;31m${#failed[@]} Failed!\033[0m"
+  for i in "${failed[@]}"
+  do
+    echo -e "\033[0;31m"+$i+"\033[0m"
+  done
+fi
