@@ -31,7 +31,6 @@ for i in $(find . -name ".git" | cut -c 3-); do
   cd $CUR_DIR
 done
 
-echo $arrCount
 # If there aren't failed pulls, complete!
 if [ $arrCount == "0" ]; then
   echo -e "\n\033[32mComplete!\033[0m\n"
