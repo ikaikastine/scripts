@@ -1,0 +1,11 @@
+# MacOS notification letting user know the cron has started
+echo 'Syncronizing development repositories' | terminal-notifier
+
+# change directory into dev
+cd Development
+
+# sync git
+sync_git
+
+# MacOS notification letting user know the cron has completed
+echo 'Dev repos synced!' | terminal-notifier
